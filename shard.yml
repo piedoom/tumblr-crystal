@@ -1,0 +1,12 @@
+name: tumblr
+version: 0.1.0
+
+authors:
+  - doomy <a>
+
+license: MIT
+
+dependencies:
+  cossack:
+    github: greyblake/crystal-cossack
+    version: ~> 0.1

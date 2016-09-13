@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# start a new icr console 
+# if you don't have ICR, download it here - https://github.com/greyblake/crystal-icr
+icr -r ./src/tumblr.cr
