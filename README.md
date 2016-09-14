@@ -1,6 +1,6 @@
-![](https://travis-ci.org/piedoom/tumblr-crystal.svg)
-
 # tumblr
+
+![](https://travis-ci.org/piedoom/tumblr-crystal.svg)
 
 The unofficial Tumblr client for Crystal
 
@@ -15,9 +15,23 @@ dependencies:
     github: piedoom/tumblr-crystal
 ```
 
+## Timeline
+
+#### Tumblr Simple
+
+- [x] Simple BasePost implementation with parameters
+- [ ] Fetch different post types
+
+#### Tumblr v2 API
+
+- [ ] Implement OAuth 1.0a
+- [ ] Allow reading of all currently available material
+- [ ] Post creation and upload
 
 ## Usage
 
+The Tumblr shard is **very** much a work in progress.  The Tumblr V1 API will 
+be implemented first (as it less complex and doesn't require OAuth).  
 
 ```crystal
 require "tumblr"

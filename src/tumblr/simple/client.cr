@@ -12,6 +12,24 @@ module Tumblr
     # unauthenticated requests to the V1 tumblr API
     class Client
 
+      # get everything from a user-blog
+      def self.get_all(
+        blog : String, 
+        offset : Int32 = nil,
+        amount : Int32 = nil,
+        post_type : PostType = nil)
+
+        get_all(blog, offset, amount, post_type, nil)
+      end
+
+      # Gets a singular post by ID
+      def self.get_post(
+        blog : String,
+        id : Int64)
+
+        get_all(blog: blog, id: id)
+      end
+
       # Gets all info from a user blog, including post counts and posts.
       # Uses the blog username without any extra symbols
       # Correct: `get_all('myblog')`
@@ -19,8 +37,30 @@ module Tumblr
       # Tumblr's V1 API is is a little wonky, so we can't really set a constant to a generic base route.
       # Tumblr uses the following format - `http://BLOG_NAME.tumblr.com/api/read/json`
       # We also only have that one endpoint, so all other methods besides the following are just helpers, really.
-      def self.get_all(blog : String)
+      def self.get_all(
+        blog : String, 
+        offset : Int32 = nil,
+        amount : Int32 = nil,
+        post_type : PostType = nil,
+        id : Int64 = nil)
+        
+        # intialize some variables
+        parameters = Hash(String, String).new
+        params_str = String.new
 
+        # assemble all of our parameters
+        parameters["id"] = id.to_s unless id.nil?
+        parameters["start"] = offset unless offset.nil?
+        parameters["num"] = amount.to_s unless amount.nil?
+        parameters["type"] = post_type unless post_type.nil?
+        parameters["callback"] = "\"\""
+
+        # add some strings to our params_str to build our request
+        parameters.each_with_index do |(k,v), i|
+          params_str += "?" if i == 0
+          params_str += "#{k}=#{v}"
+          params_str += "&" unless i == parameters.size - 1
+        end
 
         cossack = Cossack::Client.new do |client|
           # follow up to 10 redirections (by default 5)
@@ -29,9 +69,8 @@ module Tumblr
 
         # get our "JSON" - 
         # this isn't actually pure JSON, as Tumblr wraps it in a JavaScript variable for some odd reason.
-        response_js =  cossack.get("http://#{blog}.tumblr.com/api/read/json?callback=\"\"").body
+        response_js =  cossack.get("http://#{blog}.tumblr.com/api/read/json#{params_str}").body
 
-        
         # We got rid of most of it by providing the `callback=''` parameter, but there's still a `);` at the end
         # of our response.  We can do a substring to get rid of this.
         response = response_js[1..response_js.size - 3]

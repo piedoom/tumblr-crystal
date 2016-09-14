@@ -20,4 +20,16 @@ describe Tumblr::Simple do
     (Tumblr::Simple::Client.get_all("staff").posts.size >= 1).should eq true
   end
 
+  it "should retrieve exactly two posts" do 
+    Tumblr::Simple::Client.get_all(blog: "staff", amount: 2).posts.size.should eq 2
+  end
+
+  it "should retrieve 50 posts when requesting more than 50" do
+    Tumblr::Simple::Client.get_all(blog: "staff", amount: 100).posts.size.should eq 50
+  end
+
+  it "should get a post with a specific ID" do
+    Tumblr::Simple::Client.get_post(blog: "staff", id: 150372753074).posts.first.id.should eq "150372753074"
+  end
+
 end
