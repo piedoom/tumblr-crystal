@@ -5,5 +5,5 @@ module Tumblr
   
 end
 
-# a = Tumblr::Simple::Client.get_all("doomy")
-# puts a.inspect
+# c = Tumblr::Client.new(ENV["CK"], ENV["CS"], ENV["OT"], ENV["OS"])
+# c.get_user_info
