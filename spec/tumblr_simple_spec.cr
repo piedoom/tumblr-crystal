@@ -29,7 +29,11 @@ describe Tumblr::Simple do
   end
 
   it "should get a post with a specific ID" do
-    Tumblr::Simple::Client.get_post(blog: "staff", id: 150372753074).posts.first.id.should eq "150372753074"
+    Tumblr::Simple::Client.get_post(blog: "staff", id: 150372753074).id.should eq "150372753074"
+  end
+
+  it "should get only posts from a blog" do
+    Tumblr::Simple::Client.get_posts("staff").should be_a(Array(Tumblr::Simple::BasePost))
   end
 
 end

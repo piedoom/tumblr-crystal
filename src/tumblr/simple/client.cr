@@ -15,19 +15,30 @@ module Tumblr
       # get everything from a user-blog
       def self.get_all(
         blog : String, 
-        offset : Int32 = nil,
-        amount : Int32 = nil,
-        post_type : PostType = nil)
+        offset : Int32? = nil,
+        amount : Int32? = nil,
+        post_type : PostType? = nil)
 
-        get_all(blog, offset, amount, post_type, nil)
+        return get(blog, offset, amount, post_type)
       end
+
+      # get only posts
+      def self.get_posts(
+        blog : String,
+        offset : Int32? = nil,
+        amount : Int32? = nil,
+        post_type : PostType? = nil)
+
+        return get(blog, offset, amount, post_type).posts
+      end   
 
       # Gets a singular post by ID
       def self.get_post(
         blog : String,
         id : Int64)
 
-        get_all(blog: blog, id: id)
+        result = get(blog: blog, id: id)
+        return result.posts.first
       end
 
       # Gets all info from a user blog, including post counts and posts.
@@ -37,12 +48,12 @@ module Tumblr
       # Tumblr's V1 API is is a little wonky, so we can't really set a constant to a generic base route.
       # Tumblr uses the following format - `http://BLOG_NAME.tumblr.com/api/read/json`
       # We also only have that one endpoint, so all other methods besides the following are just helpers, really.
-      def self.get_all(
+      private def self.get(
         blog : String, 
-        offset : Int32 = nil,
-        amount : Int32 = nil,
-        post_type : PostType = nil,
-        id : Int64 = nil)
+        offset : Int32? = nil,
+        amount : Int32? = nil,
+        post_type : PostType? = nil,
+        id : Int64? = nil)
         
         # intialize some variables
         parameters = Hash(String, String).new

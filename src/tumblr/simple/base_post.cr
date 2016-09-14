@@ -13,6 +13,12 @@ module Tumblr
         @url_slug = json["url-with-slug"].as_s
         @post_type = json["type"].as_s
       end
+
+      # factory method to create any of the several tumblr post types
+      def self.create(json, post_type)
+        
+      end
+
     end
   end
 end
