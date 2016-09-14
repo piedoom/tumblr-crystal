@@ -41,4 +41,4 @@ puts a.inspect
 
 ## Contributors
 
-- [doomy](https://github.com/[your-github-name]) - creator, maintainer
+- [doomy](https://github.com/piedoom) - creator, maintainer
