@@ -31,7 +31,7 @@ puts a.inspect
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/tumblr/fork )
+1. Fork it ( https://github.com/piedoom/tumblr-crystal/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -39,4 +39,4 @@ puts a.inspect
 
 ## Contributors
 
-- [doomy](https://github.com/[your-github-name]) doomy - creator, maintainer
+- [doomy](https://github.com/[your-github-name]) - creator, maintainer
