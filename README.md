@@ -1,3 +1,5 @@
+![](https://travis-ci.org/piedoom/tumblr-crystal.svg)
+
 # tumblr
 
 The unofficial Tumblr client for Crystal
