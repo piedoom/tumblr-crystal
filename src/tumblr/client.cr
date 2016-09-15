@@ -2,6 +2,8 @@ require "oauth"
 require "http/client"
 require "uri"
 
+require "./blog"
+
 # very, very broken.
 module Tumblr
   class Client
@@ -31,7 +33,9 @@ module Tumblr
 
     # get all info pertaining to the currently signed in user
     def get_user_info
-      get("/v2/user/info")
+      result = get("/v2/user/info")
+      # return Tumblr::Blog.from_json(result)
+      return Tumblr::Blog.new(result)
     end
 
 
