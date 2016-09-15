@@ -1,15 +1,12 @@
 require "oauth"
-require "http"
+require "http/client"
 require "uri"
 
 # very, very broken.
 module Tumblr
   class Client
 
-    Host = "api.tumblr.com/v2"
-
-    property consumer : OAuth::Consumer
-    property token : OAuth::AccessToken
+    Host = "api.tumblr.com"
 
     # create a new client with oauth support
     def initialize(
@@ -19,34 +16,63 @@ module Tumblr
       oauth_token_secret : String)
 
       # create some nifty oauth stuff
-      @consumer = OAuth::Consumer.new(Host, consumer_key, consumer_secret)
-      @token = OAuth::AccessToken.new(oauth_token, oauth_token_secret)
+      consumer = OAuth::Consumer.new(Host, consumer_key, consumer_secret)
+      token = OAuth::AccessToken.new(oauth_token, oauth_token_secret)
 
       @http_client = HTTP::Client.new(Host)
-      @consumer.authenticate(@http_client, @token)
+      consumer.authenticate(@http_client, token)
     end
 
-    def get(path : String, params = {} of String => String)
-        path += "?#{to_query_string(params)}" unless params.empty?
-        response = @http_client.get(path)
-        #handle_response(response)
-    end
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~*~*~ USER METHODS *~*~*~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
 
-    def post(path : String, form = {} of String => String)
-      response = @http_client.post_form(path, form)
-      #handle_response(response)
-    end
-
+    # get all info pertaining to the currently signed in user
     def get_user_info
-      puts get("/user/info")
+      get("/v2/user/info")
     end
 
-    private def to_query_string(hash : Hash)
+
+
+
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~ INTERNAL HTTP METHODS ~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+    #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
+
+    # generic function for getting JSON
+    private def get(path : String, params = {} of String => String)
+
+      # add parameters to our string
+      path += "?#{to_query_params(params)}"  unless params.empty?
+
+      # finally, get our response
+      response = @http_client.get(path)
+
+      # handle the response properly and check for errors
+      handle_response(response)
+    end
+
+    private def handle_response(response : HTTP::Client::Response)
+      case response.status_code
+      when 200..299
+        response.body
+      else
+        raise "error" # TODO: more error checking
+      end
+    end
+
+    # returns a URL encoded string used for query parameters
+    private def to_query_params(params : Hash(String, String))
       HTTP::Params.build do |form_builder|
-        hash.each do |key, value|
+        params.each do |key, value|
           form_builder.add(key, value)
         end
       end
     end
+
   end
 end
