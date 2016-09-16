@@ -25,7 +25,7 @@ dependencies:
 #### Tumblr v2 API
 
 - [x] Implement OAuth 1.0a
- 
+- [ ] Proper error checking
 - [ ] Allow reading of all currently available material
   - [ ] User Methods
     - [x] Info
