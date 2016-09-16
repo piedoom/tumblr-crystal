@@ -2,7 +2,7 @@ require "oauth"
 require "http/client"
 require "uri"
 
-require "./user"
+require "./*"
 
 # very, very broken.
 module Tumblr
@@ -34,13 +34,7 @@ module Tumblr
     # get all info pertaining to the currently signed in user
     def get_user_info
       result = get("/v2/user/info")
-
-      pull = JSON::PullParser.new(result)
-      pull.on_key("response") do
-        pull.on_key("user") do
-          return Tumblr::User.new(pull)
-        end
-      end
+      return Response.from_json(result, Tumblr::User, "user")
     end
 
 
