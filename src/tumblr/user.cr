@@ -7,7 +7,8 @@ module Tumblr
       name: {type: String},
       likes: {type: Int32},
       following: {type: Int32},
-      default_post_format: {type: String}
+      default_post_format: {type: String},
+      blogs: {type: Array(Blog)}
     })
   end
 end
