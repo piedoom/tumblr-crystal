@@ -25,6 +25,7 @@ module Tumblr
       consumer.authenticate(@http_client, token)
     end
 
+
     #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
     #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
     #~*~*~*~ USER METHODS *~*~*~*~*#
@@ -32,9 +33,21 @@ module Tumblr
     #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*#
 
     # get all info pertaining to the currently signed in user
-    def get_user_info
+    def user_info
       result = get("/v2/user/info")
       return Response.from_json(result, Tumblr::User, "user")
+    end
+
+    # get posts from a user's dashboard
+    def dashboard(
+      offset : Int32? = nil, 
+      limit : Int32? = nil, 
+      type : Tumblr::PostType? = nil,
+      since_id : Int64? = nil,
+      before_id : Int64? = nil)
+
+      result = get("/v2/user/dashboard") 
+      return Response.from_json(result, Array(Tumblr::BasePost), "posts")
     end
 
 
