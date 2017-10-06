@@ -1,4 +1,5 @@
 /doc/
+/lib
 /libs/
 /.crystal/
 /.shards/
@@ -8,3 +9,5 @@
 # Dependencies will be locked in application that uses them
 /shard.lock
 
+# compiled binaries don't need to be checked in
+/tumblr
