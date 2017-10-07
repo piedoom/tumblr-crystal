@@ -1,6 +1,6 @@
 # tumblr
 
-![](https://travis-ci.org/piedoom/tumblr-crystal.svg)
+[![Build Status](https://travis-ci.org/piedoom/tumblr-crystal.svg?branch=master)](https://travis-ci.org/piedoom/tumblr-crystal)
 
 The unofficial Tumblr client for Crystal
 
